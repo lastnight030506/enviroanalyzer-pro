@@ -1,119 +1,92 @@
 # EnviroAnalyzer Pro v3.0
 
 [![R](https://img.shields.io/badge/R-4.0%2B-blue.svg)](https://cran.r-project.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg)]()
+[![Shiny](https://img.shields.io/badge/Shiny-1.7%2B-green.svg)](https://shiny.rstudio.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 🌿 Environmental Quality Assessment Application
+> 🌿 **Ứng dụng đánh giá chất lượng môi trường theo Quy chuẩn Việt Nam (QCVN)**
 
-EnviroAnalyzer Pro là ứng dụng phân tích chất lượng môi trường theo các Quy chuẩn Việt Nam (QCVN).
+## ✨ Tính năng
 
----
+- 📊 **Đánh giá tuân thủ QCVN** - Nước, Không khí, Đất, Tiếng ồn
+- 📈 **Trực quan hóa** - Radar, Gauge, Heatmap, Bar charts
+- 📁 **Import/Export** - Excel (.xlsx), CSV
+- 🌙 **Dark/Light mode** - Tùy chỉnh giao diện
+- ⚡ **Xử lý nhanh** - Hỗ trợ 100+ samples
 
-## 📥 Cài đặt
+## 🚀 Cài đặt & Chạy
 
-### Cách 1: Windows Installer (Khuyến nghị)
+### Yêu cầu
+- [R >= 4.0](https://cran.r-project.org/bin/windows/base/)
 
-1. Tải file `EnviroAnalyzer_Pro_Setup.exe` từ [Releases](../../releases)
-2. Chạy installer và làm theo hướng dẫn
-3. Khởi động từ Start Menu hoặc Desktop
+### Chạy ứng dụng
 
-### Cách 2: Cài đặt thủ công
-
-#### Yêu cầu
-- [R 4.0+](https://cran.r-project.org/bin/windows/base/)
-
-#### Các bước
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/enviroanalyzer-pro.git
+git clone https://github.com/YOUR_USERNAME/enviroanalyzer-pro.git
 cd enviroanalyzer-pro
 
-# Chạy setup (lần đầu)
-setup.bat
-
-# Khởi động ứng dụng
-run_app.bat
+# Chạy app
+Rscript run.R
 ```
 
----
+Hoặc mở R Console:
 
-## 🎯 Tính năng
+```r
+setwd("path/to/enviroanalyzer-pro")
+source("run.R")
+```
 
-### Nhập dữ liệu
-- ✅ Nhập trực tiếp vào Data Grid
-- ✅ Import từ Excel (.xlsx, .xls)
-- ✅ Import từ CSV
+App sẽ mở tại: **http://127.0.0.1:3838**
 
-### Quy chuẩn hỗ trợ (QCVN)
-| Ma trận | Quy chuẩn | Cột |
-|---------|-----------|-----|
-| Nước mặt | QCVN 08-MT:2015/BTNMT | A1, A2, B1, B2 |
-| Nước thải CN | QCVN 40:2011/BTNMT | A, B |
-| Nước thải SH | QCVN 14:2008/BTNMT | A, B |
-| Không khí | QCVN 05:2013/BTNMT | - |
-| Đất | QCVN 03-MT:2015/BTNMT | Nông nghiệp, Dân cư, CN |
-| Tiếng ồn | QCVN 26:2010/BTNMT | Đặc biệt, Thông thường |
+## 📋 QCVN Hỗ trợ
 
-### Phân tích
-- ✅ Đánh giá tuân thủ QCVN
-- ✅ Thống kê (Mean, Max, Min)
-- ✅ Phân loại: Compliant, Warning, Critical
-
-### Trực quan hóa
-- 📊 Biểu đồ so sánh
-- 🎯 Radar chart
-- ⏱️ Gauge chart
-- 🔥 Heatmap
-- 🥧 Pie chart
-
-### Xuất báo cáo
-- 📄 Excel
-- 📑 PDF
-
-### Tùy chỉnh
-- 🌙 Dark/Light mode
-- 🎨 Accent color
-- ➕ Custom QCVN
-
----
+| Ma trận | Quy chuẩn | Cột áp dụng |
+|---------|-----------|-------------|
+| **Nước mặt** | QCVN 08-MT:2015/BTNMT | A1, A2, B1, B2 |
+| **Nước thải CN** | QCVN 40:2011/BTNMT | A, B |
+| **Nước thải SH** | QCVN 14:2008/BTNMT | A, B |
+| **Không khí** | QCVN 05:2023/BTNMT | TB1h, TB24h, TBnăm |
+| **Đất** | QCVN 03-MT:2015/BTNMT | Nông nghiệp, Dân cư, CN |
+| **Tiếng ồn** | QCVN 26:2010/BTNMT | Ngày, Đêm |
 
 ## 📁 Cấu trúc
 
 ```
 enviroanalyzer-pro/
-├── app.R                 # Ứng dụng chính
-├── constants.R           # QCVN definitions
-├── functions.R           # Data processing
-├── visuals.R             # Visualization
-├── run_app.bat           # Launcher
-├── setup.bat             # Installer
-├── build_installer.R     # Build script
+├── app.R          # Ứng dụng Shiny chính
+├── constants.R    # Định nghĩa QCVN standards
+├── functions.R    # Logic xử lý dữ liệu
+├── visuals.R      # Hàm trực quan hóa
+├── run.R          # Script khởi chạy
+├── LICENSE
 └── README.md
 ```
 
----
+## 🎯 Sử dụng
 
-## 🔧 Build Installer
+1. **Chọn loại ma trận** (Nước/Khí/Đất/Tiếng ồn)
+2. **Chọn QCVN** và cột áp dụng
+3. **Nhập dữ liệu** hoặc import từ Excel
+4. **Xem kết quả** đánh giá tuân thủ
+5. **Xuất báo cáo** Excel/PDF
 
-### Yêu cầu
-1. Cài [Inno Setup](https://jrsoftware.org/isdl.php)
-2. Cài R 4.0+
+## 📦 Dependencies
 
-### Build
 ```r
-setwd("path/to/project")
-source("build_installer.R")
+shiny, shinyjs, bslib, thematic, tidyverse, 
+gt, DT, shinyWidgets, rhandsontable, writexl, 
+scales, readxl
 ```
 
-Installer sẽ được tạo trong thư mục `installer/`
+## 📄 License
+
+MIT License - Xem [LICENSE](LICENSE)
+
+## 👤 Author
+
+Environmental Engineering Student
 
 ---
 
-## 📝 License
-
-MIT License
-
----
-
-*Version 3.0.0 - January 2026*
+⭐ **Star repo này nếu hữu ích!**
