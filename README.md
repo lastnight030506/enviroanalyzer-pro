@@ -1,10 +1,33 @@
 # EnviroAnalyzer Pro v3.0
 
-[![R](https://img.shields.io/badge/R-4.0%2B-blue.svg)](https://cran.r-project.org/)
-[![Shiny](https://img.shields.io/badge/Shiny-1.7%2B-green.svg)](https://shiny.rstudio.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/lastnight030506/enviroanalyzer-pro?style=flat-square)](https://github.com/lastnight030506/enviroanalyzer-pro/releases)
+[![R](https://img.shields.io/badge/R-4.0%2B-blue.svg?style=flat-square)](https://cran.r-project.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+[![Windows](https://img.shields.io/badge/Platform-Windows-lightgrey.svg?style=flat-square)]()
 
 > 🌿 **Ứng dụng đánh giá chất lượng môi trường theo Quy chuẩn Việt Nam (QCVN)**
+
+---
+
+## 📥 Download
+
+### Windows Installers
+
+| Version | Size | Description | Download |
+|---------|------|-------------|----------|
+| **🪶 Lightweight** | ~2 MB | Requires R installed | [Download](https://github.com/lastnight030506/enviroanalyzer-pro/releases/latest/download/EnviroAnalyzer_Lightweight_Setup.exe) |
+| **📦 Standalone** | ~300 MB | Includes R Portable, works out-of-the-box | [Download](https://github.com/lastnight030506/enviroanalyzer-pro/releases/latest/download/EnviroAnalyzer_Standalone_Setup.exe) |
+
+### Which version should I choose?
+
+| If you... | Choose |
+|-----------|--------|
+| Already have R installed | **Lightweight** (smaller download) |
+| Don't have R / Unsure | **Standalone** (just works) |
+| Want offline use | **Standalone** (all included) |
+| Limited disk space | **Lightweight** + install R |
+
+---
 
 ## ✨ Tính năng
 
@@ -14,19 +37,21 @@
 - 🌙 **Dark/Light mode** - Tùy chỉnh giao diện
 - ⚡ **Xử lý nhanh** - Hỗ trợ 100+ samples
 
-## 🚀 Cài đặt & Chạy
+---
 
-### Yêu cầu
+## 🚀 Run from Source
+
+### Requirements
 - [R >= 4.0](https://cran.r-project.org/bin/windows/base/)
 
-### Chạy ứng dụng
+### Quick Start
 
 ```bash
 # Clone repository
-git clone https://github.com/YOUR_USERNAME/enviroanalyzer-pro.git
+git clone https://github.com/lastnight030506/enviroanalyzer-pro.git
 cd enviroanalyzer-pro
 
-# Chạy app
+# Run app
 Rscript run.R
 ```
 
