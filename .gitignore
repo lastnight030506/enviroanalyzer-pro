@@ -1,0 +1,34 @@
+# Git ignore file for EnviroAnalyzer Pro
+
+# R specific
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# Installer output
+installer/
+*.exe
+*.msi
+
+# Temporary files
+*.tmp
+*.temp
+~$*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# User data
+user_data/
+exports/
