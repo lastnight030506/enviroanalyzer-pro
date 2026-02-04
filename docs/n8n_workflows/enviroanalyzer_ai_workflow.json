@@ -1,0 +1,448 @@
+{
+  "name": "EnviroAnalyzer-AI-Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "your-webhook-id",
+      "parameters": {
+        "path": "enviroanalyzer",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse incoming data from EnviroAnalyzer Pro\nconst data = $input.first().json;\nconst action = data.action;\n\nreturn { action, data };"
+      },
+      "name": "Parse Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.action}}",
+              "value2": "analyze_results"
+            }
+          ]
+        }
+      },
+      "name": "Check Action",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an environmental quality assessment expert. Analyze the following water/air/soil quality assessment results and provide:\n\n1. Overall assessment summary\n2. Key findings (parameters exceeding limits)\n3. Potential environmental and health impacts\n4. Compliance status interpretation\n\nData:\nQCVN: {{$json.data.qcvn}}\nTotal Parameters: {{$json.data.summary.total}}\nPassed: {{$json.data.summary.pass}}\nWarning: {{$json.data.summary.warning}}\nFailed: {{$json.data.summary.fail}}\nCompliance Rate: {{$json.data.summary.compliance_rate}}%\n\nFailed Parameters:\n{{JSON.stringify($json.data.failed_parameters, null, 2)}}\n\nProvide analysis in Vietnamese language, professional tone."
+            }
+          ]
+        }
+      },
+      "name": "OpenAI - Analyze Results",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [850, 200],
+      "credentials": {
+        "openAiApi": {
+          "id": "1",
+          "name": "OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.action}}",
+              "value2": "suggest_action"
+            }
+          ]
+        }
+      },
+      "name": "Check Suggest Action",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an environmental remediation expert. A water quality parameter has exceeded the allowed limit:\n\nParameter: {{$json.data.parameter}}\nMeasured Value: {{$json.data.measured_value}}\nAllowed Limit: {{$json.data.limit}}\nExceed Percentage: {{$json.data.exceed_percentage}}%\nSeverity: {{$json.data.severity}}\n\nProvide specific, actionable recommendations to:\n1. Identify possible sources/causes\n2. Immediate corrective actions\n3. Long-term solutions\n4. Monitoring recommendations\n\nResponse in Vietnamese, practical and implementable suggestions."
+            }
+          ]
+        }
+      },
+      "name": "OpenAI - Suggest Actions",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [1050, 400],
+      "credentials": {
+        "openAiApi": {
+          "id": "1",
+          "name": "OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.action}}",
+              "value2": "explain_results"
+            }
+          ]
+        }
+      },
+      "name": "Check Explain",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [850, 600]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "content": "=You are explaining environmental quality assessment results to non-technical stakeholders.\n\nQCVN Standard: {{$json.data.qcvn}}\nResults:\n{{JSON.stringify($json.data.results, null, 2)}}\n\nExplain these results in simple, easy-to-understand Vietnamese:\n- What each parameter means\n- Why it matters for the environment and health\n- What the compliance status indicates\n- Any concerns or good news\n\nUse analogies and simple language suitable for general public."
+            }
+          ]
+        }
+      },
+      "name": "OpenAI - Explain Results",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [1050, 600],
+      "credentials": {
+        "openAiApi": {
+          "id": "1",
+          "name": "OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.action}}",
+              "value2": "generate_report"
+            }
+          ]
+        }
+      },
+      "name": "Check Generate Report",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [850, 800]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "content": "=Generate a comprehensive environmental quality assessment report in Markdown format:\n\nQCVN: {{$json.data.qcvn}}\nSample Info: {{JSON.stringify($json.data.sample_info)}}\nResults: {{JSON.stringify($json.data.results)}}\n\nReport structure:\n# BÁO CÁO ĐÁNH GIÁ CHẤT LƯỢNG MÔI TRƯỜNG\n\n## 1. THÔNG TIN CHUNG\n## 2. PHƯƠNG PHÁP ĐÁNH GIÁ\n## 3. KẾT QUẢ PHÂN TÍCH\n## 4. NHẬN XÉT VÀ ĐÁNH GIÁ\n## 5. KHUYẾN NGHỊ\n\nProfessional Vietnamese report with tables, bullet points, and clear sections."
+            }
+          ]
+        }
+      },
+      "name": "OpenAI - Generate Report",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [1050, 800],
+      "credentials": {
+        "openAiApi": {
+          "id": "1",
+          "name": "OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.action}}",
+              "value2": "ping"
+            }
+          ]
+        }
+      },
+      "name": "Check Ping",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [850, 1000]
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  json: {\n    success: true,\n    message: 'n8n AI service is online',\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Ping Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1050, 1000]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format OpenAI response\nconst aiResponse = $input.first().json.response;\n\nreturn {\n  json: {\n    success: true,\n    analysis: aiResponse,\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Format Analysis Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1250, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "const aiResponse = $input.first().json.response;\n\nreturn {\n  json: {\n    success: true,\n    suggestion: aiResponse,\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Format Suggestion Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1250, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const aiResponse = $input.first().json.response;\n\nreturn {\n  json: {\n    success: true,\n    explanation: aiResponse,\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Format Explanation Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1250, 600]
+    },
+    {
+      "parameters": {
+        "jsCode": "const aiResponse = $input.first().json.response;\n\nreturn {\n  json: {\n    success: true,\n    report: aiResponse,\n    format: 'markdown',\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Format Report Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1250, 800]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{$json}}"
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1450, 500]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Parse Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Request": {
+      "main": [
+        [
+          {
+            "node": "Check Action",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Suggest Action",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Explain",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Generate Report",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Ping",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Action": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Analyze Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Analyze Results": {
+      "main": [
+        [
+          {
+            "node": "Format Analysis Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Suggest Action": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Suggest Actions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Suggest Actions": {
+      "main": [
+        [
+          {
+            "node": "Format Suggestion Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Explain": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Explain Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Explain Results": {
+      "main": [
+        [
+          {
+            "node": "Format Explanation Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Generate Report": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Generate Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Generate Report": {
+      "main": [
+        [
+          {
+            "node": "Format Report Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Ping": {
+      "main": [
+        [
+          {
+            "node": "Ping Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Analysis Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Suggestion Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Explanation Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Report Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ping Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

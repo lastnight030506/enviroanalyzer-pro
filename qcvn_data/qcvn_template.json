@@ -1,0 +1,37 @@
+{
+  "name": "QCVN XX:YYYY/BTNMT",
+  "description": "Quy chuẩn kỹ thuật quốc gia về [mô tả]",
+  "category": "water",
+  "unit": "mg/L",
+  "columns": ["A", "B"],
+  "column_descriptions": {
+    "A": "Mô tả cho cột A",
+    "B": "Mô tả cho cột B"
+  },
+  "parameters": {
+    "pH": {
+      "A": [6, 9],
+      "B": [5.5, 9],
+      "type": "range",
+      "description": "Độ pH"
+    },
+    "BOD5": {
+      "A": 30,
+      "B": 50,
+      "type": "max",
+      "description": "Nhu cầu oxy sinh hóa sau 5 ngày"
+    },
+    "DO": {
+      "A": 6,
+      "B": 4,
+      "type": "min",
+      "description": "Oxy hòa tan"
+    },
+    "TSS": {
+      "A": 50,
+      "B": 100,
+      "type": "max",
+      "description": "Tổng chất rắn lơ lửng"
+    }
+  }
+}

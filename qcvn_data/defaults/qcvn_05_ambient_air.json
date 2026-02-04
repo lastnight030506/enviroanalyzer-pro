@@ -1,0 +1,78 @@
+{
+  "name": "QCVN 05:2023/BTNMT",
+  "description": "Quy chuẩn kỹ thuật quốc gia về chất lượng không khí xung quanh",
+  "category": "air",
+  "unit": "µg/m³",
+  "columns": ["TB1h", "TB8h", "TB24h", "TBnam"],
+  "column_descriptions": {
+    "TB1h": "Trung bình 1 giờ",
+    "TB8h": "Trung bình 8 giờ",
+    "TB24h": "Trung bình 24 giờ",
+    "TBnam": "Trung bình năm"
+  },
+  "parameters": {
+    "SO2": {
+      "TB1h": 350,
+      "TB24h": 125,
+      "TBnam": 50,
+      "type": "max"
+    },
+    "NO2": {
+      "TB1h": 200,
+      "TB24h": 100,
+      "TBnam": 40,
+      "type": "max"
+    },
+    "CO": {
+      "TB1h": 30000,
+      "TB8h": 10000,
+      "type": "max"
+    },
+    "O3": {
+      "TB1h": 180,
+      "TB8h": 120,
+      "type": "max"
+    },
+    "PM10": {
+      "TB24h": 100,
+      "TBnam": 50,
+      "type": "max"
+    },
+    "PM2_5": {
+      "TB24h": 50,
+      "TBnam": 25,
+      "type": "max"
+    },
+    "Pb": {
+      "TB24h": 1.5,
+      "TBnam": 0.5,
+      "type": "max"
+    },
+    "Benzene": {
+      "TBnam": 5,
+      "type": "max"
+    },
+    "Toluene": {
+      "TB1h": 1000,
+      "type": "max"
+    },
+    "Xylene": {
+      "TB1h": 1000,
+      "type": "max"
+    },
+    "H2S": {
+      "TB1h": 42,
+      "type": "max"
+    },
+    "NH3": {
+      "TB1h": 200,
+      "type": "max"
+    },
+    "TSP": {
+      "TB1h": 300,
+      "TB24h": 200,
+      "TBnam": 100,
+      "type": "max"
+    }
+  }
+}

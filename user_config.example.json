@@ -1,0 +1,39 @@
+{
+  "app": {
+    "version": "3.1",
+    "theme": "light",
+    "language": "vi"
+  },
+  "theme": {
+    "mode": "light",
+    "accent_color": "#1565C0",
+    "success_color": "#10b981",
+    "warning_color": "#f59e0b",
+    "danger_color": "#ef4444",
+    "background": "#ffffff",
+    "text_primary": "#1e293b",
+    "text_secondary": "#64748b"
+  },
+  "ai": {
+    "enabled": false,
+    "n8n_endpoint": "",
+    "auto_analyze": false,
+    "show_suggestions": true
+  },
+  "display": {
+    "show_warnings": true,
+    "decimal_places": 2,
+    "table_page_length": 10,
+    "chart_theme": "modern"
+  },
+  "qcvn": {
+    "last_selected": "",
+    "auto_load_custom": true,
+    "show_all_parameters": false
+  },
+  "export": {
+    "default_format": "xlsx",
+    "include_charts": true,
+    "auto_open_after_export": true
+  }
+}

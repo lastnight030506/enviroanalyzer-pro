@@ -1,0 +1,118 @@
+{
+  "name": "QCVN 40:2011/BTNMT",
+  "description": "Quy chuẩn kỹ thuật quốc gia về nước thải công nghiệp",
+  "category": "water",
+  "unit": "mg/L",
+  "columns": ["A", "B"],
+  "column_descriptions": {
+    "A": "Xả vào nguồn nước dùng cho cấp nước sinh hoạt",
+    "B": "Xả vào nguồn nước không dùng cho cấp nước sinh hoạt"
+  },
+  "parameters": {
+    "pH": {
+      "A": [6, 9],
+      "B": [5.5, 9],
+      "type": "range"
+    },
+    "BOD5": {
+      "A": 30,
+      "B": 50,
+      "type": "max"
+    },
+    "COD": {
+      "A": 75,
+      "B": 150,
+      "type": "max"
+    },
+    "TSS": {
+      "A": 50,
+      "B": 100,
+      "type": "max"
+    },
+    "NH4_N": {
+      "A": 5,
+      "B": 10,
+      "type": "max"
+    },
+    "NO3_N": {
+      "A": 20,
+      "B": 40,
+      "type": "max"
+    },
+    "PO4_P": {
+      "A": 4,
+      "B": 6,
+      "type": "max"
+    },
+    "Coliform": {
+      "A": 3000,
+      "B": 5000,
+      "type": "max"
+    },
+    "Fe": {
+      "A": 1,
+      "B": 5,
+      "type": "max"
+    },
+    "Mn": {
+      "A": 0.5,
+      "B": 1,
+      "type": "max"
+    },
+    "Pb": {
+      "A": 0.1,
+      "B": 0.5,
+      "type": "max"
+    },
+    "As": {
+      "A": 0.05,
+      "B": 0.1,
+      "type": "max"
+    },
+    "Hg": {
+      "A": 0.005,
+      "B": 0.01,
+      "type": "max"
+    },
+    "Cd": {
+      "A": 0.05,
+      "B": 0.1,
+      "type": "max"
+    },
+    "Cr_VI": {
+      "A": 0.05,
+      "B": 0.1,
+      "type": "max"
+    },
+    "Cu": {
+      "A": 2,
+      "B": 2,
+      "type": "max"
+    },
+    "Zn": {
+      "A": 3,
+      "B": 3,
+      "type": "max"
+    },
+    "Ni": {
+      "A": 0.2,
+      "B": 0.5,
+      "type": "max"
+    },
+    "Oil_Grease": {
+      "A": 5,
+      "B": 10,
+      "type": "max"
+    },
+    "Phenol": {
+      "A": 0.1,
+      "B": 0.5,
+      "type": "max"
+    },
+    "CN": {
+      "A": 0.07,
+      "B": 0.1,
+      "type": "max"
+    }
+  }
+}

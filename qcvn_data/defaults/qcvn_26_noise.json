@@ -1,0 +1,37 @@
+{
+  "name": "QCVN 26:2010/BTNMT",
+  "description": "Quy chuẩn kỹ thuật quốc gia về tiếng ồn",
+  "category": "noise",
+  "unit": "dBA",
+  "columns": ["Ngay_6h_21h", "Dem_21h_6h"],
+  "column_descriptions": {
+    "Ngay_6h_21h": "Ban ngày (6h-21h)",
+    "Dem_21h_6h": "Ban đêm (21h-6h)"
+  },
+  "parameters": {
+    "Benh_vien": {
+      "Ngay_6h_21h": 55,
+      "Dem_21h_6h": 45,
+      "type": "max",
+      "description": "Khu vực đặc biệt (bệnh viện, thư viện, nhà điều dưỡng)"
+    },
+    "Khu_dan_cu": {
+      "Ngay_6h_21h": 70,
+      "Dem_21h_6h": 55,
+      "type": "max",
+      "description": "Khu dân cư, khách sạn, nhà nghỉ"
+    },
+    "Thuong_mai": {
+      "Ngay_6h_21h": 75,
+      "Dem_21h_6h": 60,
+      "type": "max",
+      "description": "Khu thương mại, dịch vụ"
+    },
+    "San_xuat": {
+      "Ngay_6h_21h": 75,
+      "Dem_21h_6h": 60,
+      "type": "max",
+      "description": "Khu sản xuất, công nghiệp"
+    }
+  }
+}

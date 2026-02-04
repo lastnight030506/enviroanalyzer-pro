@@ -1,0 +1,257 @@
+# ============================================================================
+# GitHub Actions: Build and Release EnviroAnalyzer Pro
+# ============================================================================
+# Triggers on version tags (v*) and creates a GitHub Release with:
+#   - EnviroAnalyzer_Lightweight_Setup.exe (requires R installed)
+#   - EnviroAnalyzer_Standalone_Setup.exe (bundles R Portable)
+# ============================================================================
+
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 3.0.0)'
+        required: true
+        default: '3.0.0'
+
+env:
+  APP_NAME: EnviroAnalyzer
+  R_VERSION: '4.4.2'
+  R_PORTABLE_URL: 'https://cloud.r-project.org/bin/windows/base/old/4.4.2/R-4.4.2-win.exe'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+      # ---- Checkout Repository ----
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ---- Get Version from Tag ----
+      - name: Get version
+        id: version
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            $version = "${{ github.event.inputs.version }}"
+          } else {
+            $version = "${{ github.ref_name }}".TrimStart('v')
+          }
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+          echo "Version: $version"
+
+      # ---- Setup R ----
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ env.R_VERSION }}
+
+      # ---- Install Inno Setup ----
+      - name: Install Inno Setup
+        shell: pwsh
+        run: |
+          choco install innosetup -y
+          echo "C:\Program Files (x86)\Inno Setup 6" >> $env:GITHUB_PATH
+
+      # ---- Create Build Directories ----
+      - name: Create directories
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "build_output"
+          New-Item -ItemType Directory -Force -Path "build_output\lightweight"
+          New-Item -ItemType Directory -Force -Path "build_output\standalone"
+          New-Item -ItemType Directory -Force -Path "R-Portable"
+
+      # ---- Download R Portable for Standalone Version ----
+      - name: Download R Portable
+        shell: pwsh
+        run: |
+          Write-Host "Downloading R ${{ env.R_VERSION }} installer..."
+          $rInstaller = "R-${{ env.R_VERSION }}-win.exe"
+          Invoke-WebRequest -Uri "${{ env.R_PORTABLE_URL }}" -OutFile $rInstaller
+          
+          Write-Host "Extracting R to R-Portable folder..."
+          # Extract R installer (it's actually a self-extracting archive)
+          Start-Process -FilePath $rInstaller -ArgumentList "/VERYSILENT", "/DIR=R-Portable\R-${{ env.R_VERSION }}" -Wait
+          
+          # Verify extraction
+          if (Test-Path "R-Portable\R-${{ env.R_VERSION }}\bin\Rscript.exe") {
+            Write-Host "✓ R Portable extracted successfully"
+          } else {
+            Write-Error "Failed to extract R Portable"
+            exit 1
+          }
+
+      # ---- Install Required R Packages into Portable R ----
+      - name: Install R packages for Standalone
+        shell: pwsh
+        run: |
+          $rscript = "R-Portable\R-${{ env.R_VERSION }}\bin\Rscript.exe"
+          
+          Write-Host "Installing R packages..."
+          & $rscript -e @"
+          options(repos = c(CRAN = 'https://cloud.r-project.org'))
+          pkgs <- c('shiny', 'shinyjs', 'bslib', 'thematic', 'tidyverse', 
+                    'gt', 'DT', 'shinyWidgets', 'rhandsontable', 'writexl', 
+                    'scales', 'readxl')
+          install.packages(pkgs, Ncpus = 4)
+          cat('\n✓ Installed packages:\n')
+          print(installed.packages()[pkgs, 'Version'])
+          "@
+
+      # ---- Prepare App Files ----
+      - name: Prepare app files
+        shell: pwsh
+        run: |
+          # Create app directory for both versions
+          $appFiles = @("app.R", "constants.R", "functions.R", "visuals.R", "run.R", "LICENSE")
+          
+          foreach ($file in $appFiles) {
+            if (Test-Path $file) {
+              Copy-Item $file "build_output\lightweight\"
+              Copy-Item $file "build_output\standalone\"
+              Write-Host "✓ Copied $file"
+            }
+          }
+          
+          # Copy R-Portable to standalone build
+          Copy-Item -Path "R-Portable" -Destination "build_output\standalone\" -Recurse
+          Write-Host "✓ Copied R-Portable to standalone build"
+
+      # ---- Create Launcher Scripts ----
+      - name: Create launcher scripts
+        shell: pwsh
+        run: |
+          # Lightweight launcher (finds system R)
+          $lightweightLauncher = @'
+          @echo off
+          setlocal enabledelayedexpansion
+          title EnviroAnalyzer Pro
+          
+          set "R_PATH="
+          for %%v in (4.5.2 4.5.1 4.5.0 4.4.2 4.4.1 4.4.0 4.3.3 4.3.2) do (
+              if exist "C:\Program Files\R\R-%%v\bin\Rscript.exe" (
+                  set "R_PATH=C:\Program Files\R\R-%%v\bin\Rscript.exe"
+                  goto :found
+              )
+          )
+          
+          echo ============================================
+          echo   R is required but not installed!
+          echo ============================================
+          echo.
+          echo Please download R from:
+          echo   https://cran.r-project.org/bin/windows/base/
+          echo.
+          start "" "https://cran.r-project.org/bin/windows/base/"
+          pause
+          exit /b 1
+          
+          :found
+          cd /d "%~dp0"
+          "%R_PATH%" run.R
+          '@
+          $lightweightLauncher | Out-File -FilePath "build_output\lightweight\EnviroAnalyzer.bat" -Encoding ASCII
+          
+          # Standalone launcher (uses bundled R)
+          $standaloneLauncher = @'
+          @echo off
+          title EnviroAnalyzer Pro
+          cd /d "%~dp0"
+          set "R_PATH=%~dp0R-Portable\R-4.4.2\bin\Rscript.exe"
+          
+          if not exist "%R_PATH%" (
+              echo Error: Bundled R not found!
+              pause
+              exit /b 1
+          )
+          
+          "%R_PATH%" run.R
+          '@
+          $standaloneLauncher | Out-File -FilePath "build_output\standalone\EnviroAnalyzer.bat" -Encoding ASCII
+          
+          Write-Host "✓ Created launcher scripts"
+
+      # ---- Update Version in ISS Files ----
+      - name: Update version in installer scripts
+        shell: pwsh
+        run: |
+          $version = "${{ steps.version.outputs.VERSION }}"
+          
+          # Update lightweight ISS
+          (Get-Content "installer/lightweight.iss") -replace 'MyAppVersion ".*"', "MyAppVersion `"$version`"" | Set-Content "installer/lightweight.iss"
+          
+          # Update standalone ISS
+          (Get-Content "installer/standalone.iss") -replace 'MyAppVersion ".*"', "MyAppVersion `"$version`"" | Set-Content "installer/standalone.iss"
+          
+          Write-Host "✓ Updated version to $version"
+
+      # ---- Build Lightweight Installer ----
+      - name: Build Lightweight Installer
+        shell: pwsh
+        run: |
+          Write-Host "Building Lightweight installer..."
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "installer/lightweight.iss"
+          
+          $exe = Get-ChildItem "build_output\lightweight\*.exe" | Select-Object -First 1
+          Write-Host "✓ Built: $($exe.Name) ($([math]::Round($exe.Length/1MB, 2)) MB)"
+
+      # ---- Build Standalone Installer ----
+      - name: Build Standalone Installer
+        shell: pwsh
+        run: |
+          Write-Host "Building Standalone installer..."
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "installer/standalone.iss"
+          
+          $exe = Get-ChildItem "build_output\standalone\*.exe" | Select-Object -First 1
+          Write-Host "✓ Built: $($exe.Name) ($([math]::Round($exe.Length/1MB, 2)) MB)"
+
+      # ---- List Build Artifacts ----
+      - name: List artifacts
+        shell: pwsh
+        run: |
+          Write-Host "`n========== BUILD ARTIFACTS =========="
+          Get-ChildItem "build_output\*\*.exe" | ForEach-Object {
+            $size = [math]::Round($_.Length/1MB, 2)
+            Write-Host "📦 $($_.Name) - $size MB"
+          }
+
+      # ---- Create GitHub Release ----
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: EnviroAnalyzer Pro v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## EnviroAnalyzer Pro v${{ steps.version.outputs.VERSION }}
+            
+            🌿 **Environmental Quality Assessment Application (QCVN Standards)**
+            
+            ### 📥 Download Options
+            
+            | Version | Size | Description |
+            |---------|------|-------------|
+            | **Lightweight** | ~2 MB | Requires R installed. Best for users who already have R. |
+            | **Standalone** | ~300 MB | Includes R Portable. Works out-of-the-box, no installation needed. |
+            
+            ### 🆕 What's New
+            - See [CHANGELOG](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
+            
+            ### 📋 Requirements
+            - **Lightweight**: [R 4.0+](https://cran.r-project.org/bin/windows/base/) must be installed
+            - **Standalone**: No requirements, includes everything needed
+            
+            ---
+            *Built with ❤️ for environmental engineers*
+          draft: false
+          prerelease: false
+          files: |
+            build_output/lightweight/EnviroAnalyzer_Lightweight_Setup.exe
+            build_output/standalone/EnviroAnalyzer_Standalone_Setup.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

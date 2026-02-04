@@ -1,0 +1,91 @@
+╔════════════════════════════════════════════════════════════════════════╗
+║                   ENVIROANALYZER PRO v3.1                              ║
+║              HƯỚNG DẪN SỬ DỤNG NHANH - NGƯỜI DÙNG CUỐI                ║
+╚════════════════════════════════════════════════════════════════════════╝
+
+📌 YÊU CẦU HỆ THỐNG
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Windows 10/11
+✓ Phần mềm R (tự động tải nếu chưa có)
+✓ Kết nối internet (chỉ lần đầu để tải packages)
+
+🚀 KHỞI CHẠY ỨNG DỤNG
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌─ ĐƠN GIẢN NHẤT (KHUYẾN NGHỊ) ──────────────────────────────────────┐
+│                                                                       │
+│  1. Mở thư mục EnviroAnalyzer Pro                                    │
+│  2. Double-click vào file: KHOI_CHAY_APP.vbs                         │
+│  3. Nhấn OK khi thấy thông báo                                       │
+│  4. Đợi ứng dụng tự động mở (vài giây)                               │
+│                                                                       │
+│  ★ Không cần terminal, chạy như phần mềm bình thường                 │
+│                                                                       │
+└───────────────────────────────────────────────────────────────────────┘
+
+┌─ CÁCH 2: CHẾ ĐỘ DESKTOP APP (NÂNG CAO) ────────────────────────────┐
+│                                                                       │
+│  1. Mở thư mục electron\                                             │
+│  2. Double-click: run_electron.bat                                   │
+│  3. Ứng dụng mở như phần mềm độc lập (không qua trình duyệt)        │
+│                                                                       │
+│  ★ Yêu cầu: Đã cài Node.js và chạy "npm install" trong electron\     │
+│                                                                       │
+└───────────────────────────────────────────────────────────────────────┘
+
+┌─ CÁCH 3: CHO LẬP TRÌNH VIÊN ───────────────────────────────────────┐
+│                                                                       │
+│  Mở Command Prompt/PowerShell tại thư mục gốc:                       │
+│    > Rscript run.R                                                   │
+│                                                                       │
+└───────────────────────────────────────────────────────────────────────┘
+
+📖 SỬ DỤNG ỨNG DỤNG
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ĐÁNH GIÁ MẪU
+   ├─ Chọn tiêu chuẩn QCVN (VD: QCVN 08 - Nước mặt)
+   ├─ Nhập dữ liệu đo đạc vào bảng
+   ├─ Nhấn "Đánh giá" → Xem kết quả ngay lập tức
+   └─ Xuất báo cáo PDF/Excel
+
+2. TẢI TEMPLATE QCVN
+   ├─ Vào tab "Quản lý QCVN"
+   ├─ Nhấn "Tải Template Excel"
+   ├─ Chỉnh sửa file Excel theo hướng dẫn
+   └─ Upload lại để thêm tiêu chuẩn mới
+
+3. SỬ DỤNG AI (NẾU ĐÃ CẤU HÌNH)
+   ├─ Vào "Cài đặt" → Bật "AI Assistant"
+   ├─ Sau khi đánh giá mẫu, nhấn "Phân tích AI"
+   └─ Nhận gợi ý xử lý tự động
+
+🛠️ XỬ LÝ LỖI THƯỜNG GẶP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ LỖI: "KHÔNG TÌM THẤY R"
+   → Cài đặt R từ: https://cran.r-project.org/bin/windows/base/
+   → Chạy lại file KHOI_CHAY_APP.bat
+
+❌ LỖI: "Port 3838 đã được sử dụng"
+   → Đóng tất cả cửa sổ R/RStudio
+   → Hoặc khởi động lại máy tính
+
+❌ LỖI: "Missing packages"
+   → Kết nối internet
+   → Chạy lại, app tự động tải packages
+
+❌ LỖI: Electron không chạy
+   → Cài Node.js: https://nodejs.org/
+   → Mở PowerShell trong electron\: npm install
+   → Chạy lại run_electron.bat
+
+📞 HỖ TRỢ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Đọc file README.md để biết thêm chi tiết
+- Xem docs\ để tìm tài liệu kỹ thuật
+- Liên hệ: [Thêm email/link support của bạn]
+
+═══════════════════════════════════════════════════════════════════════════
+         © 2026 EnviroAnalyzer Pro - Made with ❤️ in Vietnam
+═══════════════════════════════════════════════════════════════════════════

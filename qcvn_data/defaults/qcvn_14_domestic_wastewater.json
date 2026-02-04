@@ -1,0 +1,58 @@
+{
+  "name": "QCVN 14:2008/BTNMT",
+  "description": "Quy chuẩn kỹ thuật quốc gia về nước thải sinh hoạt",
+  "category": "water",
+  "unit": "mg/L",
+  "columns": ["A", "B"],
+  "column_descriptions": {
+    "A": "Xả vào nguồn nước dùng cho cấp nước sinh hoạt",
+    "B": "Xả vào nguồn nước không dùng cho cấp nước sinh hoạt"
+  },
+  "parameters": {
+    "pH": {
+      "A": [5, 9],
+      "B": [5, 9],
+      "type": "range"
+    },
+    "BOD5": {
+      "A": 30,
+      "B": 50,
+      "type": "max"
+    },
+    "TSS": {
+      "A": 50,
+      "B": 100,
+      "type": "max"
+    },
+    "TDS": {
+      "A": 500,
+      "B": 1000,
+      "type": "max"
+    },
+    "NH4_N": {
+      "A": 5,
+      "B": 10,
+      "type": "max"
+    },
+    "NO3_N": {
+      "A": 30,
+      "B": 50,
+      "type": "max"
+    },
+    "PO4_P": {
+      "A": 6,
+      "B": 10,
+      "type": "max"
+    },
+    "Oil_Grease": {
+      "A": 10,
+      "B": 20,
+      "type": "max"
+    },
+    "Coliform": {
+      "A": 3000,
+      "B": 5000,
+      "type": "max"
+    }
+  }
+}

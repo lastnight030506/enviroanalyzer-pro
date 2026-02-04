@@ -1,0 +1,35 @@
+# EnviroAnalyzer Pro - Git Ignore
+
+# User Config (personal settings)
+user_config.json
+config/user_config.json
+config/user_config.backup.json
+
+# R
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Temp
+*.tmp
+*.log
+~$*
+
+# Build artifacts
+*.exe
+*.zip
+dist/
+
+# Node
+electron/node_modules/

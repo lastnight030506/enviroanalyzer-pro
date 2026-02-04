@@ -1,0 +1,80 @@
+{
+  "name": "QCVN 03-MT:2015/BTNMT",
+  "description": "Quy chuẩn kỹ thuật quốc gia về giới hạn cho phép kim loại nặng trong đất",
+  "category": "soil",
+  "unit": "mg/kg",
+  "columns": ["Nong_nghiep", "Lam_nghiep", "Dan_cu", "Thuong_mai", "Cong_nghiep"],
+  "column_descriptions": {
+    "Nong_nghiep": "Đất nông nghiệp",
+    "Lam_nghiep": "Đất lâm nghiệp",
+    "Dan_cu": "Đất khu dân cư",
+    "Thuong_mai": "Đất thương mại, dịch vụ",
+    "Cong_nghiep": "Đất công nghiệp"
+  },
+  "parameters": {
+    "As": {
+      "Nong_nghiep": 15,
+      "Lam_nghiep": 20,
+      "Dan_cu": 15,
+      "Thuong_mai": 20,
+      "Cong_nghiep": 25,
+      "type": "max"
+    },
+    "Cd": {
+      "Nong_nghiep": 1.5,
+      "Lam_nghiep": 3,
+      "Dan_cu": 2,
+      "Thuong_mai": 5,
+      "Cong_nghiep": 10,
+      "type": "max"
+    },
+    "Cu": {
+      "Nong_nghiep": 100,
+      "Lam_nghiep": 150,
+      "Dan_cu": 100,
+      "Thuong_mai": 200,
+      "Cong_nghiep": 300,
+      "type": "max"
+    },
+    "Pb": {
+      "Nong_nghiep": 70,
+      "Lam_nghiep": 100,
+      "Dan_cu": 120,
+      "Thuong_mai": 200,
+      "Cong_nghiep": 300,
+      "type": "max"
+    },
+    "Zn": {
+      "Nong_nghiep": 200,
+      "Lam_nghiep": 200,
+      "Dan_cu": 200,
+      "Thuong_mai": 300,
+      "Cong_nghiep": 500,
+      "type": "max"
+    },
+    "Cr": {
+      "Nong_nghiep": 150,
+      "Lam_nghiep": 200,
+      "Dan_cu": 200,
+      "Thuong_mai": 250,
+      "Cong_nghiep": 300,
+      "type": "max"
+    },
+    "Hg": {
+      "Nong_nghiep": 0.5,
+      "Lam_nghiep": 1,
+      "Dan_cu": 1,
+      "Thuong_mai": 2,
+      "Cong_nghiep": 5,
+      "type": "max"
+    },
+    "Ni": {
+      "Nong_nghiep": 50,
+      "Lam_nghiep": 70,
+      "Dan_cu": 50,
+      "Thuong_mai": 100,
+      "Cong_nghiep": 200,
+      "type": "max"
+    }
+  }
+}

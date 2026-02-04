@@ -1,0 +1,120 @@
+{
+  "name": "QCVN 08-MT:2015/BTNMT",
+  "description": "Quy chuẩn kỹ thuật quốc gia về chất lượng nước mặt",
+  "category": "water",
+  "unit": "mg/L",
+  "columns": ["A1", "A2", "B1", "B2"],
+  "column_descriptions": {
+    "A1": "Sử dụng cho mục đích cấp nước sinh hoạt (sau xử lý thông thường)",
+    "A2": "Sử dụng cho mục đích cấp nước sinh hoạt (sau xử lý phù hợp), bảo tồn động thực vật thủy sinh",
+    "B1": "Sử dụng cho mục đích tưới tiêu, thủy lợi",
+    "B2": "Giao thông thủy và các mục đích khác"
+  },
+  "parameters": {
+    "pH": {
+      "A1": [6, 8.5],
+      "A2": [6, 8.5],
+      "B1": [5.5, 9],
+      "B2": [5.5, 9],
+      "type": "range"
+    },
+    "DO": {
+      "A1": 6,
+      "A2": 5,
+      "B1": 4,
+      "B2": 2,
+      "type": "min"
+    },
+    "BOD5": {
+      "A1": 4,
+      "A2": 6,
+      "B1": 15,
+      "B2": 25,
+      "type": "max"
+    },
+    "COD": {
+      "A1": 10,
+      "A2": 15,
+      "B1": 30,
+      "B2": 50,
+      "type": "max"
+    },
+    "TSS": {
+      "A1": 20,
+      "A2": 30,
+      "B1": 50,
+      "B2": 100,
+      "type": "max"
+    },
+    "NH4_N": {
+      "A1": 0.3,
+      "A2": 0.3,
+      "B1": 0.9,
+      "B2": 0.9,
+      "type": "max"
+    },
+    "NO3_N": {
+      "A1": 2,
+      "A2": 5,
+      "B1": 10,
+      "B2": 15,
+      "type": "max"
+    },
+    "PO4_P": {
+      "A1": 0.1,
+      "A2": 0.2,
+      "B1": 0.3,
+      "B2": 0.5,
+      "type": "max"
+    },
+    "Coliform": {
+      "A1": 2500,
+      "A2": 5000,
+      "B1": 7500,
+      "B2": 10000,
+      "type": "max"
+    },
+    "Fe": {
+      "A1": 0.5,
+      "A2": 1,
+      "B1": 1.5,
+      "B2": 2,
+      "type": "max"
+    },
+    "Mn": {
+      "A1": 0.1,
+      "A2": 0.2,
+      "B1": 0.5,
+      "B2": 1,
+      "type": "max"
+    },
+    "Pb": {
+      "A1": 0.02,
+      "A2": 0.02,
+      "B1": 0.05,
+      "B2": 0.05,
+      "type": "max"
+    },
+    "As": {
+      "A1": 0.01,
+      "A2": 0.02,
+      "B1": 0.05,
+      "B2": 0.1,
+      "type": "max"
+    },
+    "Hg": {
+      "A1": 0.001,
+      "A2": 0.001,
+      "B1": 0.001,
+      "B2": 0.002,
+      "type": "max"
+    },
+    "Cd": {
+      "A1": 0.005,
+      "A2": 0.005,
+      "B1": 0.01,
+      "B2": 0.01,
+      "type": "max"
+    }
+  }
+}

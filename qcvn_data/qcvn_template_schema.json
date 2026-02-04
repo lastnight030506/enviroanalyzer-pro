@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QCVN Standard Template",
+  "description": "Template để tạo Quy chuẩn Kỹ thuật Quốc gia mới cho EnviroAnalyzer Pro",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Tên quy chuẩn (VD: QCVN 08-MT:2015/BTNMT)",
+      "example": "QCVN XX:YYYY/BTNMT"
+    },
+    "description": {
+      "type": "string",
+      "description": "Mô tả quy chuẩn",
+      "example": "Quy chuẩn kỹ thuật quốc gia về..."
+    },
+    "category": {
+      "type": "string",
+      "enum": ["water", "air", "soil", "noise", "other"],
+      "description": "Loại quy chuẩn: water (nước), air (không khí), soil (đất), noise (tiếng ồn), other (khác)"
+    },
+    "unit": {
+      "type": "string",
+      "description": "Đơn vị đo (VD: mg/L, µg/m³, dBA)",
+      "example": "mg/L"
+    },
+    "columns": {
+      "type": "array",
+      "description": "Tên các cột/loại trong quy chuẩn (VD: ['A', 'B'] hoặc ['A1', 'A2', 'B1', 'B2'])",
+      "items": {
+        "type": "string"
+      },
+      "example": ["A", "B"]
+    },
+    "column_descriptions": {
+      "type": "object",
+      "description": "Mô tả cho từng cột",
+      "example": {
+        "A": "Xả vào nguồn nước dùng cho cấp nước sinh hoạt",
+        "B": "Xả vào nguồn nước không dùng cho cấp nước sinh hoạt"
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Danh sách các thông số và giới hạn cho phép",
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["max", "min", "range"],
+              "description": "Loại kiểm tra: max (giá trị tối đa), min (giá trị tối thiểu), range (khoảng giá trị)"
+            }
+          },
+          "required": ["type"],
+          "description": "Mỗi thông số phải có 'type' và các giá trị giới hạn tương ứng với mỗi cột"
+        }
+      },
+      "example": {
+        "pH": {
+          "A": [6, 9],
+          "B": [5.5, 9],
+          "type": "range"
+        },
+        "BOD5": {
+          "A": 30,
+          "B": 50,
+          "type": "max"
+        },
+        "DO": {
+          "A": 6,
+          "B": 4,
+          "type": "min"
+        }
+      }
+    }
+  },
+  "required": ["name", "description", "category", "unit", "columns", "parameters"]
+}
